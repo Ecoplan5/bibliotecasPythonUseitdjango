@@ -27,7 +27,21 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-n$08zupy@tf0g_o$+r2gn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+# Obtener el dominio de Railway - comentado para desarrollo local
+# RAILWAY_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
+
+# Configuración de hosts permitidos
+ALLOWED_HOSTS = [
+    '127.0.0.1', 
+    'localhost', 
+    '.railway.app',
+    'bibliotecaspythonuseitdjango-production.up.railway.app'  # Necesario para Railway
+]
+
+# Descomentar estas líneas cuando se despliegue en Railway
+# if RAILWAY_DOMAIN:
+#     ALLOWED_HOSTS.append(RAILWAY_DOMAIN)
+#     ALLOWED_HOSTS.append(f"*.{RAILWAY_DOMAIN}")
 
 
 # Application definition
@@ -89,7 +103,7 @@ DATABASES = {
     }
 }
 
-# Configuración de base de datos para Heroku
+# Configuración de base de datos para Railway
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.config(
@@ -161,7 +175,16 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000', 'https://*.herokuapp.com']
+# CSRF configuration para Railway y desarrollo local
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://bibliotecaspythonuseitdjango-production.up.railway.app'  # Necesario para Railway
+]
+
+# Añadir dominio de Railway a CSRF trusted origins si existe - comentado para desarrollo local
+# if RAILWAY_DOMAIN:
+#     CSRF_TRUSTED_ORIGINS.append(f'https://{RAILWAY_DOMAIN}')
 
 # estas lineas son para la autenticacion de usuarios  entradas y salidas 
 LOGIN_REDIRECT_URL = '/'
