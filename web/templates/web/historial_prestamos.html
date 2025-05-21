@@ -1,0 +1,149 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros.css' %}">
+<style>
+    .bg-soft-green {
+        background-color: #5fa97d;
+        color: white;
+    }
+    
+    .badge.bg-soft-success {
+        background-color: #7ac389 !important;
+        color: #1d5b2f !important;
+    }
+    
+    .badge.bg-soft-warning {
+        background-color: #ffd980 !important;
+        color: #856404 !important;
+    }
+    
+    .btn-soft-secondary {
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+        color: #495057;
+    }
+    
+    .btn-soft-secondary:hover {
+        background-color: #d3d9df;
+        border-color: #c8cfd6;
+        color: #383d41;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Historial de Préstamos</h2>
+    </div>
+
+    {% if not user.is_admin %}
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> Solo los administradores pueden acceder a esta página.
+    </div>
+    {% else %}
+    
+    {% if prestamos %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-soft-green">
+            <h5 class="card-title mb-0">Registro completo de préstamos</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Libro</th>
+                            <th>Usuario</th>
+                            <th>Fecha de préstamo</th>
+                            <th>Estado</th>
+                            <th>Fecha de devolución</th>
+                            <th>Duración</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prestamo in prestamos %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'libros-detalles' prestamo.libro.id %}">{{ prestamo.libro.titulo }}</a>
+                            </td>
+                            <td>{{ prestamo.usuario.username }}</td>
+                            <td>{{ prestamo.fecha_prestamo|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if prestamo.devuelto %}
+                                <span class="badge bg-soft-success">Devuelto</span>
+                                {% else %}
+                                <span class="badge bg-soft-warning">En préstamo</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if prestamo.fecha_devolucion %}
+                                {{ prestamo.fecha_devolucion|date:"d/m/Y H:i" }}
+                                {% else %}
+                                <span class="text-muted">Pendiente</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if prestamo.devuelto %}
+                                {{ prestamo.fecha_devolucion|timeuntil:prestamo.fecha_prestamo }}
+                                {% else %}
+                                {{ prestamo.fecha_prestamo|timesince }} (en curso)
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-soft-green">
+            <h5 class="card-title mb-0">Estadísticas</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total de préstamos</h5>
+                            <p class="display-4">{{ prestamos.count }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Préstamos activos</h5>
+                            <p class="display-4">{{ prestamos_activos }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Préstamos devueltos</h5>
+                            <p class="display-4">{{ prestamos_devueltos }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">No hay registros de préstamos en el sistema.</p>
+    </div>
+    {% endif %}
+    
+    <div class="mt-4">
+        <a href="{% url 'libros-lista' %}" class="btn btn-soft-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a la lista de libros
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

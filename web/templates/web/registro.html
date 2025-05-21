@@ -1,0 +1,122 @@
+{% extends 'web/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm registro-card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">Registro de Usuario</h4>
+            </div>
+            <div class="card-body">
+                {% if form.errors %}
+                <div class="alert alert-danger small py-2 form-alert">
+                    <strong>Error:</strong> Por favor corrige los errores.
+                </div>
+                {% endif %}
+                
+                <form method="post" class="py-2 registro-form">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">Usuario:</label>
+                        {{ form.username|add_class:"form-control" }}
+                        {% if form.username.errors %}
+                            <div class="text-danger small">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email:</label>
+                        {{ form.email|add_class:"form-control" }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">Contraseña:</label>
+                            <div class="input-group">
+                                {{ form.password1|add_class:"form-control" }}
+                                <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword1" title="Mostrar/Ocultar contraseña">
+                                    <i class="bi bi-eye" id="eyeIcon1"></i>
+                                </button>
+                            </div>
+                            {% if form.password1.errors %}
+                                <div class="text-danger small">{{ form.password1.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirmar:</label>
+                            <div class="input-group">
+                                {{ form.password2|add_class:"form-control" }}
+                                <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword2" title="Mostrar/Ocultar contraseña">
+                                    <i class="bi bi-eye" id="eyeIcon2"></i>
+                                </button>
+                            </div>
+                            {% if form.password2.errors %}
+                                <div class="text-danger small">{{ form.password2.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm">¿Ya tienes una cuenta? Inicia sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Para la primera contraseña
+    const toggleButton1 = document.getElementById('togglePassword1');
+    const passwordInput1 = document.getElementById('id_password1');
+    const eyeIcon1 = document.getElementById('eyeIcon1');
+    
+    toggleButton1.addEventListener('click', function() {
+        if (passwordInput1.type === 'password') {
+            passwordInput1.type = 'text';
+            eyeIcon1.classList.remove('bi-eye');
+            eyeIcon1.classList.add('bi-eye-slash');
+        } else {
+            passwordInput1.type = 'password';
+            eyeIcon1.classList.remove('bi-eye-slash');
+            eyeIcon1.classList.add('bi-eye');
+        }
+    });
+    
+    // Para la segunda contraseña (confirmación)
+    const toggleButton2 = document.getElementById('togglePassword2');
+    const passwordInput2 = document.getElementById('id_password2');
+    const eyeIcon2 = document.getElementById('eyeIcon2');
+    
+    toggleButton2.addEventListener('click', function() {
+        if (passwordInput2.type === 'password') {
+            passwordInput2.type = 'text';
+            eyeIcon2.classList.remove('bi-eye');
+            eyeIcon2.classList.add('bi-eye-slash');
+        } else {
+            passwordInput2.type = 'password';
+            eyeIcon2.classList.remove('bi-eye-slash');
+            eyeIcon2.classList.add('bi-eye');
+        }
+    });
+    
+    // Limitar la longitud de las contraseñas a 10 caracteres
+    passwordInput1.setAttribute('maxlength', '10');
+    passwordInput2.setAttribute('maxlength', '10');
+});
+</script>
+{% endblock %} 

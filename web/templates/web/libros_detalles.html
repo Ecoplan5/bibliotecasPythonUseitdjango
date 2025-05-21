@@ -1,0 +1,110 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros.css' %}">
+<style>
+    .libro-carta-compacta {
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-top: 3px solid #5fa97d;
+    }
+    
+    .libro-carta-compacta .libro-carta-header {
+        background-color: #5fa97d;
+        color: white;
+        padding: 0.5rem 1rem;
+    }
+    
+    .libro-carta-compacta .libro-carta-header h2 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    
+    .libro-carta-compacta .libro-carta-body {
+        padding: 1rem;
+    }
+    
+    .libro-carta-compacta .libro-info p {
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dotted #eee;
+    }
+    
+    .libro-carta-compacta .libro-info p:last-child {
+        border-bottom: none;
+    }
+    
+    .badge.bg-soft-success {
+        background-color: #7ac389 !important;
+        color: #1d5b2f !important;
+    }
+    
+    .badge.bg-soft-danger {
+        background-color: #f7a7a3 !important;
+        color: #a42a22 !important;
+    }
+    
+    .badge.bg-soft-warning {
+        background-color: #ffd980 !important;
+        color: #856404 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}<div class="container">    <div class="row justify-content-center">        <div class="col-md-12">            <div class="libro-carta-compacta">                <div class="libro-carta-header">                    <h2>{{ libro.titulo }}</h2>                </div>                                <div class="libro-carta-body">                    <div class="libro-info">
+                        <p><strong>Autor:</strong> {{ libro.autor }}</p>
+                        <p><strong>Año:</strong> {{ libro.año_publicacion }} | 
+                        <strong>Estado:</strong>
+                        {% if libro.cantidad_stock > 0 %}
+                            <span class="badge bg-soft-success">Disponible ({{ libro.cantidad_stock }})</span>
+                        {% else %}
+                            <span class="badge bg-soft-danger">Agotado</span>
+                        {% endif %}
+                        </p>
+                        {% if user.is_admin %}
+                        <p><strong>Préstamos activos:</strong> {{ prestamos_activos }} 
+                            {% if prestamos_activos > 0 %}
+                            <span class="badge bg-soft-warning">Actualmente prestado</span>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="libro-acciones">
+                        <div class="d-flex gap-2 w-100">
+                            {% if user.is_authenticated and not user.is_admin and libro.cantidad_stock > 0 %}
+                                <form method="post" action="{% url 'prestamo-create' libro.pk %}" class="flex-fill">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-block w-100">
+                                        <i class="bi bi-bag-plus"></i> Solicitar préstamo
+                                    </button>
+                                </form>
+                            {% endif %}
+                            
+                            <a href="{% url 'libros-lista' %}" class="btn btn-secondary flex-fill">
+                                <i class="bi bi-arrow-left"></i>
+                            </a>
+                            
+                            {% if user.is_admin %}
+                                <a href="{% url 'libro-update' libro.pk %}" class="btn btn-info flex-fill">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'libro-delete' libro.pk %}" class="btn btn-danger flex-fill">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

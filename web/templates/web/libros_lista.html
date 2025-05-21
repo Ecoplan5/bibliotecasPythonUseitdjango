@@ -1,0 +1,89 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Libros Disponibles</h2>
+    {% if user.is_admin %}
+    <a href="{% url 'libro-create' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nuevo Libro
+    </a>
+    {% endif %}
+</div>
+
+<!-- Buscador de libros -->
+<div class="card mb-4 search-form">
+    <div class="card-body">
+        <form method="get" action="{% url 'libros-lista' %}" class="row g-3">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" name="buscar" class="form-control" placeholder="Buscar por título o autor..." value="{{ query }}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% if query %}
+                <a href="{% url 'libros-lista' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle"></i> Limpiar búsqueda
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if not user.is_authenticated %}
+<div class="alert alert-info mb-4">
+    <p>Para gestionar la biblioteca, primero debes <a href="{% url 'login' %}">iniciar sesión</a> o <a href="{% url 'registro' %}">registrarte</a>.</p>
+</div>
+{% endif %}
+
+{% if libros %}
+    <div class="row">
+        {% for libro in libros %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 libro-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ libro.titulo }}</h5>
+                    <p class="card-text">{{ libro.autor }}</p>
+                    <p class="card-text text-muted">Año: {{ libro.año_publicacion }}</p>
+                    <p class="card-text {% if libro.cantidad_stock > 0 %}text-success{% else %}text-danger{% endif %}">
+                        {% if libro.cantidad_stock > 0 %}
+                            <span class="badge bg-success">Disponible ({{ libro.cantidad_stock }})</span>
+                        {% else %}
+                            <span class="badge bg-danger">Agotado</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'libros-detalles' libro.pk %}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i> </a>
+                    {% if user.is_admin %}
+                    <a href="{% url 'libro-update' libro.pk %}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil"></i> </a>
+                    <a href="{% url 'libro-delete' libro.pk %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        {% if query %}
+        <p>No se encontraron libros que coincidan con "<strong>{{ query }}</strong>".</p>
+        {% else %}
+        <p>No hay libros disponibles.</p>
+        {% endif %}
+        {% if user.is_admin %}
+        <p class="mb-0">¡Sé el primero en <a href="{% url 'libro-create' %}" class="alert-link">añadir un libro</a>!</p>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

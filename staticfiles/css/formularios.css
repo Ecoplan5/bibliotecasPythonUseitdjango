@@ -1,0 +1,96 @@
+/* Estilos específicos para formularios en la aplicación Biblioteca */
+
+/* Estilos para tarjetas de formularios */
+.card.login-card, 
+.card.registro-card {
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+/* Estilos para campos de formulario */
+.form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para botones de mostrar/ocultar contraseña */
+.toggle-password {
+    cursor: pointer;
+}
+
+/* Estilos para validación de formularios */
+.form-control.is-invalid {
+    background-image: none;
+    padding-right: 1rem;
+}
+
+.text-danger {
+    font-size: 0.85rem;
+}
+
+/* Estilos específicos para formulario de login */
+.login-form .btn-primary {
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+/* Estilos específicos para formulario de registro */
+.registro-form .btn-primary {
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+/* Estilos para formulario de libro */
+.libro-form label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.libro-form .form-control-lg {
+    font-size: 1.15rem;
+}
+
+/* Estilos para alertas en formularios */
+.form-alert {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+}
+
+/* Estilos para botones en formularios */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+/* Estilos para tarjetas de formularios */
+.card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1rem;
+}
+
+/* Animación de transición para formularios */
+form {
+    transition: all 0.3s ease;
+}
+
+/* Estilos específicos para formulario de confirmación de cierre de sesión */
+.card .card-header.bg-warning {
+    background-color: #ffc107 !important;
+} 

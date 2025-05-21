@@ -1,0 +1,144 @@
+{% extends 'web/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+<style>
+    .bg-soft-green {
+        background-color: #5fa97d;
+        color: white;
+    }
+    
+    .bg-soft-info {
+        background-color: #73a9bd;
+        color: white;
+    }
+    
+    .btn-soft-primary {
+        background-color: #b8d8f8;
+        border-color: #a8c7e7;
+        color: #0d6efd;
+    }
+    
+    .btn-soft-primary:hover {
+        background-color: #a8c7e7;
+        border-color: #97b6d6;
+        color: #0a58ca;
+    }
+    
+    .btn-soft-secondary {
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+        color: #495057;
+    }
+    
+    .btn-soft-secondary:hover {
+        background-color: #d3d9df;
+        border-color: #c8cfd6;
+        color: #383d41;
+    }
+    
+    .form-compact .form-control {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.95rem;
+    }
+    .form-compact .form-label {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+    }
+    .form-compact .mb-3 {
+        margin-bottom: 0.75rem !important;
+    }
+    .card-compact {
+        max-width: 650px;
+        margin: 0 auto;
+    }
+    .card-compact .card-header {
+        padding: 0.75rem 1rem;
+    }
+    .card-compact .card-body {
+        padding: 1rem;
+    }
+    .card-compact .card-title {
+        font-size: 1.4rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow card-compact">
+            <div class="card-header {% if form.instance.id %}bg-soft-info{% else %}bg-soft-green{% endif %}">
+                <h2 class="card-title m-0">
+                    {% if form.instance.id %}
+                        <i class="bi bi-pencil-square"></i> Editar Libro
+                    {% else %}
+                        <i class="bi bi-plus-circle"></i> Añadir Libro
+                    {% endif %}
+                </h2>
+            </div>
+            
+            <div class="card-body">
+                {% if not user.is_admin %}
+                <div class="alert alert-danger py-2">
+                    <strong>Acceso denegado:</strong> Solo los administradores pueden crear o editar libros.
+                </div>
+                {% endif %}
+                
+                <form method="post" class="libro-form form-compact">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.titulo.id_for_label }}" class="form-label fw-bold">Título:</label>
+                        {{ form.titulo|add_class:"form-control" }}
+                        {% if form.titulo.errors %}
+                            <div class="alert alert-danger mt-2 py-1">{{ form.titulo.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.autor.id_for_label }}" class="form-label fw-bold">Autor:</label>
+                        {{ form.autor|add_class:"form-control" }}
+                        {% if form.autor.errors %}
+                            <div class="alert alert-danger mt-2 py-1">{{ form.autor.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label for="{{ form.año_publicacion.id_for_label }}" class="form-label fw-bold">Año:</label>
+                            {{ form.año_publicacion|add_class:"form-control" }}
+                            {% if form.año_publicacion.errors %}
+                                <div class="alert alert-danger mt-2 py-1">{{ form.año_publicacion.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-6">
+                            <label for="{{ form.cantidad_stock.id_for_label }}" class="form-label fw-bold">Stock:</label>
+                            {{ form.cantidad_stock|add_class:"form-control" }}
+                            {% if form.cantidad_stock.errors %}
+                                <div class="alert alert-danger mt-2 py-1">{{ form.cantidad_stock.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'libros-lista' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-soft-primary">
+                            {% if form.instance.id %}
+                                <i class="bi bi-save"></i> Guardar
+                            {% else %}
+                                <i class="bi bi-plus-circle"></i> Crear
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

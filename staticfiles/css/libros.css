@@ -1,0 +1,237 @@
+/* Estilos específicos para las páginas de libros */
+
+/* Estilos para las tarjetas de libros */
+.libro-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.libro-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.libro-card .card-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #212529;
+}
+
+.libro-card .card-body {
+    padding: 1.5rem;
+}
+
+.libro-card .card-footer {
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid rgba(0,0,0,0.125);
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* Estilos para badges de disponibilidad */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+    border-radius: 0.25rem;
+}
+
+/* Estilos para formularios de búsqueda */
+.search-form {
+    margin-bottom: 1.5rem;
+}
+
+.search-form .input-group {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-input {
+    border-right: none;
+    padding-left: 1rem;
+}
+
+.search-button {
+    background-color: #fff;
+    border-left: none;
+}
+
+.search-button:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilos para la página de detalles de libro */
+.libro-detalle {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+    padding: 2rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Diseño mejorado tipo carta para detalles de libro */
+.libro-carta {
+    position: relative;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 700px;
+    margin: 2rem auto;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-top: 5px solid #4a6da7;
+}
+
+.libro-carta-header {
+    background-color: #4a6da7;
+    color: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.libro-carta-header:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+}
+
+.libro-carta-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.libro-carta-body {
+    padding: 2rem;
+}
+
+.libro-info {
+    margin-bottom: 1.5rem;
+}
+
+.libro-info p {
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    border-bottom: 1px dotted #eee;
+    padding-bottom: 0.75rem;
+}
+
+.libro-info p:last-child {
+    border-bottom: none;
+}
+
+.libro-info p strong {
+    display: inline-block;
+    width: 150px;
+    color: #555;
+}
+
+.libro-estado {
+    background-color: #f9f9f9;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid #4a6da7;
+}
+
+.libro-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.btn-prestar {
+    flex-grow: 1;
+    padding: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-prestar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Responsive para móviles */
+@media (max-width: 576px) {
+    .libro-carta-header {
+        padding: 1rem;
+    }
+    
+    .libro-carta-body {
+        padding: 1rem;
+    }
+    
+    .libro-info p strong {
+        width: 110px;
+    }
+    
+    .libro-acciones {
+        flex-direction: column;
+    }
+}
+
+/* Estilos para páginas de préstamos */
+.prestamo-item {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: 0.5rem;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+
+.prestamo-item:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.prestamo-item h5 {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 0.5rem;
+}
+
+.lista-prestamos {
+    margin-bottom: 2rem;
+}
+
+/* Estilos para historial de préstamos */
+.table-responsive {
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Estilos para alertas en página de libros */
+.alert {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+
+/* Estilos para formularios de libro */
+.libro-form .form-group label {
+    font-weight: 500;
+} 

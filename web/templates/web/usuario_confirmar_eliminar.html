@@ -1,0 +1,87 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .card-compact {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .card-compact .card-header {
+        padding: 0.5rem 0.75rem;
+    }
+    .card-compact .card-body {
+        padding: 0.75rem;
+    }
+    .card-compact .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    .card-compact .alert {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    .usuario-info {
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    .usuario-info p {
+        margin-bottom: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card border-danger card-compact shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Confirmar eliminación
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if prestamos_activos %}
+                <div class="alert alert-danger">
+                    <p class="mb-0"><strong>No se puede eliminar este usuario</strong></p>
+                    <small>Este usuario tiene préstamos activos. Debe esperar a que todos los libros sean devueltos antes de poder eliminarlo.</small>
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <p class="mb-0"><strong>¿Estás seguro de que deseas eliminar este usuario?</strong></p>
+                    <small>Esta acción no se puede deshacer.</small>
+                </div>
+                {% endif %}
+                
+                <div class="usuario-info">
+                    <h5 class="card-title">{{ usuario.username }}</h5>
+                    <p><strong>Email:</strong> {{ usuario.email }}</p>
+                    <p>
+                        <strong>Rol:</strong> 
+                        {% if usuario.is_admin %}
+                            Administrador
+                        {% else %}
+                            Usuario Regular
+                        {% endif %}
+                    </p>
+                    <p><strong>Miembro desde:</strong> {{ usuario.date_joined|date:"d/m/Y" }}</p>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'administrar-usuarios' %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver a la lista de usuarios
+                        </a>
+                        <button type="submit" class="btn btn-sm btn-danger" {% if prestamos_activos %}disabled{% endif %}>
+                            <i class="bi bi-trash"></i> Confirmar eliminación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
