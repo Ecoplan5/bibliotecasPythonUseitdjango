@@ -1,0 +1,504 @@
+{
+	"info": {
+		"_postman_id": "f2a8b5e3-6d91-4e14-9c84-a7fb324e5c21",
+		"name": "Biblioteca API",
+		"description": "Colección para probar todos los endpoints de la API de Biblioteca",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticación",
+			"item": [
+				{
+					"name": "Obtener Token JWT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/token/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"token",
+								""
+							]
+						},
+						"description": "Obtiene un token JWT para autenticar las solicitudes a la API"
+					},
+					"response": []
+				},
+				{
+					"name": "Refrescar Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/token/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"token",
+								"refresh",
+								""
+							]
+						},
+						"description": "Renueva un token de acceso usando el token de actualización"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para autenticación y obtención de tokens"
+		},
+		{
+			"name": "Libros",
+			"item": [
+				{
+					"name": "Listar todos los libros",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/libros/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								""
+							]
+						},
+						"description": "Obtiene la lista completa de libros disponibles en la biblioteca"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener libro específico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/libros/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								"1",
+								""
+							]
+						},
+						"description": "Obtiene los detalles de un libro específico por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nuevo libro (solo admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Nuevo Libro\",\n    \"autor\": \"Autor Nuevo\",\n    \"año_publicacion\": 2023,\n    \"cantidad_stock\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/libros/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								""
+							]
+						},
+						"description": "Crea un nuevo libro en la biblioteca (solo para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar libro (solo admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Título Actualizado\",\n    \"autor\": \"Autor Actualizado\",\n    \"año_publicacion\": 2022,\n    \"cantidad_stock\": 8\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/libros/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								"1",
+								""
+							]
+						},
+						"description": "Actualiza todos los datos de un libro existente (solo para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar parcialmente un libro (solo admin)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cantidad_stock\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/libros/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								"1",
+								""
+							]
+						},
+						"description": "Actualiza parcialmente los datos de un libro (solo para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar libro (solo admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/libros/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"libros",
+								"1",
+								""
+							]
+						},
+						"description": "Elimina un libro de la biblioteca (solo para administradores)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar los libros de la biblioteca"
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Listar usuarios (solo admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								""
+							]
+						},
+						"description": "Obtiene la lista de todos los usuarios (solo para administradores)"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuario específico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1",
+								""
+							]
+						},
+						"description": "Obtiene los detalles de un usuario específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"email\": \"usuario@example.com\",\n    \"password\": \"contraseña123\",\n    \"rol\": \"regular\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								""
+							]
+						},
+						"description": "Crea un nuevo usuario en el sistema"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar usuarios del sistema"
+		},
+		{
+			"name": "Préstamos",
+			"item": [
+				{
+					"name": "Prestar libro a usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"libro_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{user_id}}/prestar_libro/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{user_id}}",
+								"prestar_libro",
+								""
+							]
+						},
+						"description": "Registra el préstamo de un libro a un usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Devolver libro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"libro_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{user_id}}/devolver_libro/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{user_id}}",
+								"devolver_libro",
+								""
+							]
+						},
+						"description": "Registra la devolución de un libro prestado"
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar libros prestados de un usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{user_id}}/mis_libros/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{user_id}}",
+								"mis_libros",
+								""
+							]
+						},
+						"description": "Obtiene la lista de libros prestados actualmente a un usuario"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar préstamos de libros"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://bibliotecaspythonuseitdjango-production.up.railway.app",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "SuperAdmin",
+			"type": "string"
+		},
+		{
+			"key": "password", 
+			"value": "admin1234",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+} 

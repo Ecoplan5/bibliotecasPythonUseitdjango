@@ -23,7 +23,7 @@ Sistema web para gestión de biblioteca con préstamos de libros, desarrollado c
 
 1. Clonar este repositorio:
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/Ecoplan5/bibliotecasPythonUseitdjango.git
    cd bibliotecas
    ```
 
@@ -142,7 +142,14 @@ Para registrar un nuevo usuario regular en el sistema:
 ## Documentación Adicional
 
 - **Guía de Instalación Completa**: Ver archivo `guia_instalacion.md`
-- **Documentación de API**: Ver archivo `postman_endpoints.md`
+- **Documentación de API**: Ver archivo `docs/postman/postman_endpoints.md`
+- **Colección Postman**: Disponible en `docs/postman/biblioteca_api_collection.json`
+- **Para importar la colección Postman**:
+  1. Abre Postman
+  2. Haz clic en "Import"
+  3. Arrastra el archivo JSON o búscalo en tu sistema
+  4. Configura la variable de entorno `base_url` con la URL de la API (`https://bibliotecaspythonuseitdjango-production.up.railway.app`)
+  5. Ejecuta la solicitud "Obtener Token JWT" con las credenciales para obtener el token de acceso
 
 ## Notas para Desarrolladores
 
