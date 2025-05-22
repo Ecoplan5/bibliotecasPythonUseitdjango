@@ -15,7 +15,8 @@ class LibroViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self):
         # Configuración de permisos basada en la acción
-        # Restricción de escritura solo para administradores
+        # Decidí restringir escritura solo para administradores para mantener
+        # la integridad de los datos pero permitir consultas a usuarios autenticados
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
         else:
@@ -23,7 +24,7 @@ class LibroViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 # ViewSet para gestionar usuarios y operaciones relacionadas
-# Incluye endpoints adicionales para préstamos
+# Incluye endpoints adicionales para préstamos y devoluciones
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()  # Consulta base de usuarios
     serializer_class = UsuarioSerializer  # Serializer para transformación
@@ -37,33 +38,57 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         libro_id = request.data.get('libro_id')  # Obtiene ID del libro
         
         # Validación de rol de usuario
+        # Implementé esta restricción para mantener coherencia con los permisos web
         if usuario.rol != 'regular':
-            return Response( {'error': 'Solo usuarios regulares pueden prestar libros'},  status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {'error': 'Solo usuarios regulares pueden prestar libros'},
+                status=status.HTTP_403_FORBIDDEN
+            )
       
         # Validación de parámetros
+        # Importante asegurar que recibimos los datos necesarios para procesar
         if not libro_id:
-            return Response({'error': 'Se requiere libro_id'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'Se requiere libro_id'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Validación de existencia del libro
+        # Manejo específico para obtener un error más descriptivo
         try:
             libro = Libro.objects.get(id=libro_id)
         except Libro.DoesNotExist:
-            return Response({'error': 'Libro no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {'error': 'Libro no encontrado'},
+                status=status.HTTP_404_NOT_FOUND
+            )
         
         # Validación de disponibilidad
+        # Verifico stock antes de procesar para evitar préstamos imposibles
         if libro.cantidad_stock <= 0:
-            return Response({'error': 'No hay ejemplares disponibles'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'No hay ejemplares disponibles'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Validación de préstamo duplicado
+        # Evito que un usuario intente prestar el mismo libro múltiples veces
         if libro in usuario.libros_prestados.all():
-            return Response({'error': 'Ya tienes este libro prestado'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'Ya tienes este libro prestado'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Procesamiento del préstamo
+        # Actualizo la relación y disminuyo el stock - operación atómica
         usuario.libros_prestados.add(libro)
         libro.cantidad_stock -= 1
         libro.save()
         
-        return Response({'status': 'Libro prestado'}, status=status.HTTP_200_OK)
+        return Response(
+            {'status': 'Libro prestado exitosamente'},
+            status=status.HTTP_200_OK
+        )
     
     # Endpoint para devolución de libro mediante API
     # POST /api/usuarios/{id}/devolver_libro/
@@ -73,25 +98,41 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         libro_id = request.data.get('libro_id')  # Obtiene ID del libro
         
         # Validación de parámetros
+        # Mismo patrón de validación que en préstamo para mantener consistencia
         if not libro_id:
-            return Response({'error': 'Se requiere libro_id'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'Se requiere libro_id'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Validación de existencia del libro
+        # Manejo consistente con el endpoint de préstamo
         try:
             libro = Libro.objects.get(id=libro_id)
         except Libro.DoesNotExist:
-            return Response({'error': 'Libro no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {'error': 'Libro no encontrado'},
+                status=status.HTTP_404_NOT_FOUND
+            )
         
         # Validación de posesión del libro
+        # Verifico que el usuario realmente tenga el libro prestado
         if libro not in usuario.libros_prestados.all():
-            return Response({'error': 'No tienes este libro prestado'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'No tienes este libro prestado'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Procesamiento de la devolución
+        # Actualizo la relación y aumento el stock - operación atómica
         usuario.libros_prestados.remove(libro)
         libro.cantidad_stock += 1
         libro.save()
         
-        return Response({'status': 'Libro devuelto'}, status=status.HTTP_200_OK)
+        return Response(
+            {'status': 'Libro devuelto exitosamente'},
+            status=status.HTTP_200_OK
+        )
     
     
     # Endpoint para consultar libros prestados
@@ -101,4 +142,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         usuario = self.get_object()  # Obtiene el usuario
         libros = usuario.libros_prestados.all()  # Obtiene sus libros
         serializer = LibroSerializer(libros, many=True)  # Serializa la colección
-        return Response(serializer.data)  # Devuelve datos serializados
+        
+        # Devuelvo lista completa de libros prestados con todos sus detalles
+        # Este endpoint es muy útil para apps móviles que necesitan mostrar esta info
+        return Response(serializer.data)

@@ -50,12 +50,13 @@
     padding-left: 1rem;
 }
 
-.search-button {
+/* Solo para formularios fuera de la lista de libros */
+.search-button:not(.lista-libros .search-button) {
     background-color: #fff;
     border-left: none;
 }
 
-.search-button:hover {
+.search-button:not(.lista-libros .search-button):hover {
     background-color: #f8f9fa;
 }
 
@@ -81,11 +82,11 @@
     max-width: 700px;
     margin: 2rem auto;
     border: 1px solid rgba(0,0,0,0.05);
-    border-top: 5px solid #4a6da7;
+    border-top: 5px solid var(--libro-color-primario);
 }
 
 .libro-carta-header {
-    background-color: #4a6da7;
+    background-color: var(--libro-color-primario);
     color: white;
     padding: 1.5rem 2rem;
     border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -140,7 +141,7 @@
     border-radius: 0.75rem;
     padding: 1rem;
     margin: 1.5rem 0;
-    border-left: 4px solid #4a6da7;
+    border-left: 4px solid var(--libro-color-primario);
 }
 
 .libro-acciones {

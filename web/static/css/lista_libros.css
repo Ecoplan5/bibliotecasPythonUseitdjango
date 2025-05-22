@@ -1,0 +1,100 @@
+/* Estilos específicos para la lista de libros
+   Este es uno de los componentes principales de la aplicación,
+   por eso lo separé en su propio archivo CSS para mejor organización
+*/
+
+/* Mejoras para las tarjetas de libros */
+.libro-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: var(--libro-borde-superior);
+}
+
+.libro-card:hover {
+    transform: translateY(-5px);
+}
+
+.libro-card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.libro-card .card-footer {
+    background-color: transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1.25rem;
+}
+
+/* Estilos para el autor y año */
+.libro-autor {
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.libro-año {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+/* Estilos para la disponibilidad */
+.libro-disponibilidad {
+    margin-top: auto;
+    font-weight: 500;
+}
+
+.disponible {
+    color: #28a745;
+}
+
+.no-disponible {
+    color: #dc3545;
+}
+
+/* Estilos para el buscador */
+.buscador-container {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Cambiamos estos estilos para usar las variables de libros_comun.css */
+.lista-libros .search-button {
+    background-color: var(--libro-color-primario);
+    border-color: var(--libro-color-primario);
+    color: var(--libro-color-texto);
+    transition: all 0.2s ease;
+}
+
+.lista-libros .search-button:hover {
+    filter: brightness(90%);
+}
+
+/* Paginación personalizada */
+.pagination {
+    margin-top: 2rem;
+    justify-content: center;
+}
+
+.page-item.active .page-link {
+    background-color: var(--libro-color-primario);
+    border-color: var(--libro-color-primario);
+}
+
+.page-link {
+    color: var(--libro-color-primario);
+}
+
+/* Mensaje para cuando no hay resultados */
+.no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+} 

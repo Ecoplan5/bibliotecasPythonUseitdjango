@@ -4,13 +4,13 @@ Sistema web para gestión de biblioteca con préstamos de libros, desarrollado c
 
 ## Características
 
-- ✅ Gestión de libros (crear, leer, actualizar, eliminar)
-- ✅ Sistema de préstamos y devoluciones de libros
-- ✅ Búsqueda de libros por título y autor
-- ✅ Panel de administración de usuarios
-- ✅ Historial de préstamos para administradores
-- ✅ API RESTful completa
-- ✅ Autenticación con JWT
+-  Gestión de libros (crear, leer, actualizar, eliminar)
+-  Sistema de préstamos y devoluciones de libros
+-  Búsqueda de libros por título y autor
+-  Panel de administración de usuarios
+-  Historial de préstamos para administradores
+-  API RESTful completa
+-  Autenticación con JWT
 
 ## Requisitos
 
@@ -64,10 +64,47 @@ Sistema web para gestión de biblioteca con préstamos de libros, desarrollado c
 
 2. **Panel de Administración**: Accede a http://127.0.0.1:8000/admin/ con las credenciales de tu superusuario
 
-3. **API REST**:
+3. **Acceso SuperAdmin**: 
+   - Usuario: `SuperAdmin`
+   - Contraseña: `admin1234`
+   - Email: `admin@biblioteca.com`
+   - Este usuario tiene todos los permisos para administrar el sistema completo
+   - Se crea automáticamente durante la migración
+   - Accede desde la página de login normal en http://127.0.0.1:8000/login/
+
+4. **API REST**:
    - Endpoint principal: http://127.0.0.1:8000/api/
    - Documentación completa de la API en `postman_endpoints.md`
    - Autenticación: http://127.0.0.1:8000/api/token/
+
+## Despliegue en Railway
+
+La aplicación está desplegada en Railway debido a las limitaciones de la capa gratuita de Heroku.
+
+- **URL de la aplicación**: [https://bibliotecaspythonuseitdjango-production.up.railway.app/libros/](https://bibliotecaspythonuseitdjango-production.up.railway.app/libros/)
+- **Base de datos**: PostgreSQL proporcionada por Railway
+- **Configuración**: La aplicación se configuró para despliegue automático desde GitHub
+
+## Registro de Usuarios
+
+Para registrar un nuevo usuario regular en el sistema:
+
+1. Accede a la página principal: [https://bibliotecaspythonuseitdjango-production.up.railway.app/libros/](https://bibliotecaspythonuseitdjango-production.up.railway.app/libros/)
+2. Haz clic en el enlace "Registrarse" en la barra de navegación
+3. Completa el formulario con:
+   - Nombre de usuario (único)
+   - Contraseña (mínimo 8 caracteres)
+   - Confirmar contraseña
+   - Correo electrónico (opcional)
+   - Nombre y apellido
+4. Haz clic en "Registrarse"
+5. Después del registro exitoso, podrás iniciar sesión con tus credenciales
+6. Por defecto, todos los usuarios nuevos tienen rol de "usuario regular"
+7. Los usuarios regulares pueden:
+   - Ver libros disponibles
+   - Solicitar préstamos de libros
+   - Devolver libros prestados
+   - Ver su historial de préstamos
 
 ## Tipos de Usuario
 
@@ -118,6 +155,4 @@ Si deseas contribuir al proyecto:
    python manage.py test
    ```
 
-## Licencia
-
-[MIT](LICENSE) 
+[Autor Feliciano Mosquera]

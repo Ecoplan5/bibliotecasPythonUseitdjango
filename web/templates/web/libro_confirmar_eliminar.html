@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros_comun.css' %}">
 <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
 <style>
     .card-compact {
@@ -37,8 +38,8 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-5">
-        <div class="card border-danger card-compact shadow-sm">
-            <div class="card-header bg-danger text-white">
+        <div class="card border-primary card-compact shadow-sm libro-componente">
+            <div class="card-header libro-cabecera">
                 <h4 class="card-title mb-0">
                     <i class="bi bi-exclamation-triangle-fill"></i> Confirmar eliminación
                 </h4>

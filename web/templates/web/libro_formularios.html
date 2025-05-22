@@ -3,28 +3,19 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros_comun.css' %}">
 <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
 <style>
-    .bg-soft-green {
-        background-color: #5fa97d;
-        color: white;
-    }
-    
-    .bg-soft-info {
-        background-color: #73a9bd;
-        color: white;
-    }
-    
     .btn-soft-primary {
-        background-color: #b8d8f8;
-        border-color: #a8c7e7;
-        color: #0d6efd;
+        background-color: rgba(var(--libro-color-primario-rgb), 0.25);
+        border-color: rgba(var(--libro-color-primario-rgb), 0.4);
+        color: var(--libro-color-primario);
     }
     
     .btn-soft-primary:hover {
-        background-color: #a8c7e7;
-        border-color: #97b6d6;
-        color: #0a58ca;
+        background-color: rgba(var(--libro-color-primario-rgb), 0.4);
+        border-color: rgba(var(--libro-color-primario-rgb), 0.5);
+        color: var(--libro-color-primario);
     }
     
     .btn-soft-secondary {
@@ -69,8 +60,8 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card shadow card-compact">
-            <div class="card-header {% if form.instance.id %}bg-soft-info{% else %}bg-soft-green{% endif %}">
+        <div class="card shadow card-compact libro-componente">
+            <div class="card-header libro-cabecera">
                 <h2 class="card-title m-0">
                     {% if form.instance.id %}
                         <i class="bi bi-pencil-square"></i> Editar Libro
@@ -128,7 +119,7 @@
                         <a href="{% url 'libros-lista' %}" class="btn btn-outline-secondary btn-sm">
                             <i class="bi bi-arrow-left"></i> Cancelar
                         </a>
-                        <button type="submit" class="btn btn-soft-primary">
+                        <button type="submit" class="btn btn-primary">
                             {% if form.instance.id %}
                                 <i class="bi bi-save"></i> Guardar
                             {% else %}

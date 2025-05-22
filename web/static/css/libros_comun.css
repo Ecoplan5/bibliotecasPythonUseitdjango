@@ -1,0 +1,92 @@
+/* Estilos comunes para todos los componentes relacionados con libros
+   Este archivo centraliza los colores y estilos básicos para 
+   mantener la consistencia visual en todas las vistas de libros
+*/
+
+:root {
+    --libro-color-primario: #73a9bd;  /* Azul para libros */
+    --libro-color-primario-rgb: 115, 169, 189; /* El mismo color en formato RGB */
+    --libro-color-texto: white;
+    --libro-sombra: 0 3px 6px rgba(0, 0, 0, 0.1);
+    --libro-hover-sombra: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --libro-borde-radio: 0.5rem;
+    --libro-borde-superior: 3px solid var(--libro-color-primario);
+    --boton-editar-azul: #0095ff; /* Azul brillante para botón editar */
+    --boton-editar-azul-hover: #0078cc; /* Versión más oscura para hover */
+}
+
+/* Clase principal para todos los componentes de libro */
+.libro-componente {
+    border-top: var(--libro-borde-superior);
+    box-shadow: var(--libro-sombra);
+    transition: all 0.3s ease;
+}
+
+.libro-componente:hover {
+    box-shadow: var(--libro-hover-sombra);
+}
+
+/* Cabecera estándar para todos los componentes de libro */
+.libro-cabecera {
+    background-color: var(--libro-color-primario);
+    color: var(--libro-color-texto);
+    padding: 0.75rem 1.25rem;
+    border-bottom: none;
+}
+
+/* Para usar directamente en las clases de Bootstrap */
+.bg-libro {
+    background-color: var(--libro-color-primario) !important;
+    color: var(--libro-color-texto) !important;
+}
+
+.border-libro {
+    border-color: var(--libro-color-primario) !important;
+}
+
+.text-libro {
+    color: var(--libro-color-primario) !important;
+}
+
+/* Sobrescribir botones de Bootstrap en las páginas de libros */
+.btn-primary {
+    background-color: var(--libro-color-primario) !important;
+    border-color: var(--libro-color-primario) !important;
+}
+
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:active {
+    background-color: #5d8a9a !important; /* Versión más oscura del color primario */
+    border-color: #5d8a9a !important;
+}
+
+/* Estilo para botones de edición (btn-info) - aplicado a nivel global */
+.btn-info {
+    background-color: var(--boton-editar-azul) !important;
+    border-color: var(--boton-editar-azul) !important;
+    color: white !important;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: var(--boton-editar-azul-hover) !important;
+    border-color: var(--boton-editar-azul-hover) !important;
+    color: white !important;
+}
+
+/* Aseguramos que los botones de edición en cualquier contexto tengan el color azul del botón buscar */
+body .btn-info {
+    background-color: var(--boton-editar-azul) !important;
+    border-color: var(--boton-editar-azul) !important;
+    color: white !important;
+}
+
+body .btn-info:hover,
+body .btn-info:focus,
+body .btn-info:active {
+    background-color: var(--boton-editar-azul-hover) !important;
+    border-color: var(--boton-editar-azul-hover) !important;
+    color: white !important;
+} 

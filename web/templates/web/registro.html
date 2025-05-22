@@ -4,12 +4,13 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+<link rel="stylesheet" href="{% static 'css/registro.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card shadow-sm registro-card">
+        <div class="card registro-card">
             <div class="card-header bg-primary text-white">
                 <h4 class="card-title mb-0">Registro de Usuario</h4>
             </div>
@@ -20,56 +21,58 @@
                 </div>
                 {% endif %}
                 
-                <form method="post" class="py-2 registro-form">
+                <form method="post" class="registro-form">
                     {% csrf_token %}
                     
                     <div class="mb-3">
                         <label for="{{ form.username.id_for_label }}" class="form-label">Usuario:</label>
                         {{ form.username|add_class:"form-control" }}
                         {% if form.username.errors %}
-                            <div class="text-danger small">{{ form.username.errors }}</div>
+                            <div class="errorlist">{{ form.username.errors }}</div>
                         {% endif %}
+                        <div class="help-text">{{ form.username.help_text }}</div>
                     </div>
                     
                     <div class="mb-3">
                         <label for="{{ form.email.id_for_label }}" class="form-label">Email:</label>
                         {{ form.email|add_class:"form-control" }}
                         {% if form.email.errors %}
-                            <div class="text-danger small">{{ form.email.errors }}</div>
+                            <div class="errorlist">{{ form.email.errors }}</div>
                         {% endif %}
                     </div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="{{ form.password1.id_for_label }}" class="form-label">Contraseña:</label>
-                            <div class="input-group">
+                            <div class="input-group password-group">
                                 {{ form.password1|add_class:"form-control" }}
                                 <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword1" title="Mostrar/Ocultar contraseña">
                                     <i class="bi bi-eye" id="eyeIcon1"></i>
                                 </button>
                             </div>
                             {% if form.password1.errors %}
-                                <div class="text-danger small">{{ form.password1.errors }}</div>
+                                <div class="errorlist">{{ form.password1.errors }}</div>
                             {% endif %}
+                            <div class="help-text">{{ form.password1.help_text }}</div>
                         </div>
                         
                         <div class="col-md-6">
                             <label for="{{ form.password2.id_for_label }}" class="form-label">Confirmar:</label>
-                            <div class="input-group">
+                            <div class="input-group password-group">
                                 {{ form.password2|add_class:"form-control" }}
                                 <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword2" title="Mostrar/Ocultar contraseña">
                                     <i class="bi bi-eye" id="eyeIcon2"></i>
                                 </button>
                             </div>
                             {% if form.password2.errors %}
-                                <div class="text-danger small">{{ form.password2.errors }}</div>
+                                <div class="errorlist">{{ form.password2.errors }}</div>
                             {% endif %}
                         </div>
                     </div>
                     
                   
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                        <button type="submit" class="btn btn-primary btn-registro-submit">Registrarse</button>
                         <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm">¿Ya tienes una cuenta? Inicia sesión</a>
                     </div>
                 </form>

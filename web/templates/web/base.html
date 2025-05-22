@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Archivos CSS propios -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <style>
         /* Estilos para navbar y footer fijos */
         body {
@@ -96,54 +97,94 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'libros-lista' %}">
-                            <i class="bi bi-journals"></i> Libros
-                        </a>
-                    </li>
+                    <!-- Menú de Libros -->
                     {% if user.is_authenticated %}
-                        {% if not user.is_admin %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'prestamos-listas' %}">
-                                    <i class="bi bi-bag-check"></i> Mis Préstamos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'mi-historial-prestamos' %}">
-                                    <i class="bi bi-clock-history"></i> Mi Historial
-                                </a>
-                            </li>
-                        {% endif %}
                         {% if user.is_admin %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'libro-create' %}">
-                                    <i class="bi bi-plus-circle"></i> Nuevo Libro
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'libros-lista' or request.resolver_match.url_name == 'libro-create' or request.resolver_match.url_name == 'historial-prestamos' %}active{% endif %}" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-journals"></i> Libros
                                 </a>
+                                <ul class="dropdown-menu" aria-labelledby="librosDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'libros-lista' %}">
+                                            <i class="bi bi-list-ul"></i> Lista de Libros
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'libro-create' %}">
+                                            <i class="bi bi-plus-circle"></i> Nuevo Libro
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'historial-prestamos' %}">
+                                            <i class="bi bi-clock-history"></i> Historial de Préstamos
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'historial-prestamos' %}">
-                                    <i class="bi bi-clock-history"></i> Historial de Préstamos
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'libros-lista' or request.resolver_match.url_name == 'prestamos-listas' or request.resolver_match.url_name == 'mi-historial-prestamos' %}active{% endif %}" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-journals"></i> Libros
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'administrar-usuarios' %}">
-                                    <i class="bi bi-people"></i> Usuarios
-                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="librosDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'libros-lista' %}">
+                                            <i class="bi bi-list-ul"></i> Catálogo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'prestamos-listas' %}">
+                                            <i class="bi bi-bag-check"></i> Mis Préstamos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'mi-historial-prestamos' %}">
+                                            <i class="bi bi-clock-history"></i> Mi Historial
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         {% endif %}
+                    {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión ({{ user.username }})
+                            <a class="nav-link {% if request.resolver_match.url_name == 'libros-lista' %}active{% endif %}" href="{% url 'libros-lista' %}">
+                                <i class="bi bi-journals"></i> Libros
                             </a>
+                        </li>
+                    {% endif %}
+                    
+                    <!-- Menú de Usuario -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioDropdown">
+                                {% if user.is_admin %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'administrar-usuarios' %}">
+                                            <i class="bi bi-people"></i> Usuarios
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                {% endif %}
+                                
+                                <li>
+                                    <a class="dropdown-item text-success" href="{% url 'logout' %}">
+                                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
                                 <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registro' %}">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'registro' %}active{% endif %}" href="{% url 'registro' %}">
                                 <i class="bi bi-person-plus"></i> Registrarse
                             </a>
                         </li>

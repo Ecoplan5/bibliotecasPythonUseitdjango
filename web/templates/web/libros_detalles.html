@@ -2,48 +2,13 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/libros_comun.css' %}">
 <link rel="stylesheet" href="{% static 'css/libros.css' %}">
 <style>
-    .libro-carta-compacta {
-        max-width: 500px;
-        margin: 0 auto;
-        position: relative;
-        background-color: #fff;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        overflow: hidden;
-        border: 1px solid rgba(0,0,0,0.05);
-        border-top: 3px solid #5fa97d;
-    }
-    
-    .libro-carta-compacta .libro-carta-header {
-        background-color: #5fa97d;
-        color: white;
-        padding: 0.5rem 1rem;
-    }
-    
-    .libro-carta-compacta .libro-carta-header h2 {
-        font-size: 1.2rem;
-        margin: 0;
-    }
-    
-    .libro-carta-compacta .libro-carta-body {
-        padding: 1rem;
-    }
-    
-    .libro-carta-compacta .libro-info p {
-        margin-bottom: 0.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px dotted #eee;
-    }
-    
-    .libro-carta-compacta .libro-info p:last-child {
-        border-bottom: none;
-    }
-    
+    /* Estilos de badges que usan variables de color de libros_comun.css */
     .badge.bg-soft-success {
-        background-color: #7ac389 !important;
-        color: #1d5b2f !important;
+        background-color: rgba(var(--libro-color-primario-rgb), 0.2) !important;
+        color: var(--libro-color-primario) !important;
     }
     
     .badge.bg-soft-danger {
@@ -55,10 +20,36 @@
         background-color: #ffd980 !important;
         color: #856404 !important;
     }
+    
+    /* Aseguramos que el botón de editar (btn-info) tenga el mismo color que el botón buscar */
+    .libro-carta .btn-info {
+        background-color: var(--boton-editar-azul) !important;
+        border-color: var(--boton-editar-azul) !important;
+        color: white !important;
+    }
+    
+    .libro-carta .btn-info:hover,
+    .libro-carta .btn-info:focus,
+    .libro-carta .btn-info:active {
+        background-color: var(--boton-editar-azul-hover) !important;
+        border-color: var(--boton-editar-azul-hover) !important;
+        color: white !important;
+    }
 </style>
 {% endblock %}
 
-{% block content %}<div class="container">    <div class="row justify-content-center">        <div class="col-md-12">            <div class="libro-carta-compacta">                <div class="libro-carta-header">                    <h2>{{ libro.titulo }}</h2>                </div>                                <div class="libro-carta-body">                    <div class="libro-info">
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <!-- Usamos la clase definida en libros.css -->
+            <div class="libro-carta libro-componente">
+                <div class="libro-carta-header libro-cabecera">
+                    <h2>{{ libro.titulo }}</h2>
+                </div>
+                
+                <div class="libro-carta-body">
+                    <div class="libro-info">
                         <p><strong>Autor:</strong> {{ libro.autor }}</p>
                         <p><strong>Año:</strong> {{ libro.año_publicacion }} | 
                         <strong>Estado:</strong>
@@ -91,8 +82,8 @@
                             <a href="{% url 'libros-lista' %}" class="btn btn-secondary flex-fill">
                                 <i class="bi bi-arrow-left"></i>
                             </a>
-                            
-                            {% if user.is_admin %}
+                        
+                        {% if user.is_admin %}
                                 <a href="{% url 'libro-update' libro.pk %}" class="btn btn-info flex-fill">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -100,7 +91,7 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                             {% endif %}
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>

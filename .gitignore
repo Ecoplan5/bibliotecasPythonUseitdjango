@@ -47,5 +47,5 @@ venv.bak/
 *.swo
 
 # Documentation files to ignore
-estructura_tecnica.md
+
 preguntas_y_respuestas.md 

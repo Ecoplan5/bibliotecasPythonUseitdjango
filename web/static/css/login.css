@@ -1,0 +1,48 @@
+/* Estilos específicos para la página de login
+   Este archivo contiene los estilos personalizados que se aplican
+   exclusivamente a la página de inicio de sesión. Lo creé separado
+   para mantener una mejor organización y facilitar el mantenimiento.
+*/
+
+.login-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 2rem;
+    border: none;
+}
+
+.card-header {
+    padding: 1rem;
+}
+
+.login-form {
+    padding: 0.5rem;
+}
+
+.form-alert {
+    border-left: 4px solid #dc3545;
+}
+
+.btn-registro {
+    margin-top: 15px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.btn-registro:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: translateY(-2px);
+}
+
+/* Añadí estos estilos para mejorar la experiencia con el botón
+   de mostrar/ocultar contraseña, dándole un aspecto más profesional */
+.toggle-password {
+    cursor: pointer;
+}
+
+.toggle-password:focus {
+    box-shadow: none;
+} 

@@ -1,0 +1,68 @@
+/* Estilos específicos para la página de registro
+   Creé este archivo separado para tener un mejor control sobre
+   los estilos específicos de esta funcionalidad tan importante 
+*/
+
+.registro-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: none;
+}
+
+.registro-form {
+    padding: 1rem;
+}
+
+.form-alert {
+    border-left: 4px solid #dc3545;
+    margin-bottom: 1.5rem;
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.password-group {
+    position: relative;
+}
+
+.password-toggle {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+}
+
+/* Añadí un toque de color al enfoque de los campos para
+   dar mejor feedback visual al usuario al navegar el formulario */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Ajustes específicos para los mensajes de error */
+.errorlist {
+    color: #dc3545;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+/* Botón de registro con efecto hover personalizado */
+.btn-registro-submit {
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-registro-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} 
